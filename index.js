@@ -7,7 +7,7 @@ const statisticsRoutes = require('./routes/statistics-routes');
 const passportSetup = require('./config/passport-setup');
 const tasksRoutes = require('./routes/tasks-routes');
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose').set('debug', true);;
 const keys = require('./config/keys');
 const UserDAO = require('./models/userDAO');
 const TasksDAO = require('./models/tasksDAO');
@@ -74,27 +74,35 @@ app.get('/addNewTasks', (req, res) => {
 //Tal:
 app.get('/getUserProfileSummary', (req, res) => {
   //get user google id
-  // var usr = req.user;
-  // var usrname = usr.googleId;
-  UserDAO.getUserProfileSummary().then(data=>res.json(data));
+  var usr = req.user;
+  var usrid = usr.id;
+  // var completed = usr.tasks.completed_tasks.length;
+  // var achievments = use.achievments.length;
+  UserDAO.getUserProfileSummary(usrid).then(data=>res.json(data));
 });
 app.get('/getUserCompletedTasks', (req, res) => {
-  UserDAO.getUserCompletedTasks().then(data=>res.json(data));
+  var usr = req.user;
+  var usrid = usr.id;
+  UserDAO.getUserCompletedTasks(usrid).then(data=>res.json(data));
 });
 app.get('/getUserSavedTasks', (req, res) => {
-  UserDAO.getUserSavedTasks().then(data=>res.json(data));
+  var usr = req.user;
+  var usrid = usr.id;
+  UserDAO.getUserSavedTasks(usrid).then(data=>res.json(data));
 });
 app.get('/getUserAchievments', (req, res) => {
-  UserDAO.getUserAchievments().then(data=>res.json(data));
+  var usr = req.user;
+  var usrid = usr.id;
+  UserDAO.getUserAchievments(usrid).then(data=>res.json(data));
 });
 app.get('/getAllScores', (req, res) => {
   UserDAO.getAllScores().then(data=>res.json(data));
 });
 
 
-app.get('/getAllAvailableTasks', (req, res) => {
-  TaskDAO.getAllAvailableTasks().then(data=>res.json(data));
-});
+app.route('/getavail')
+  .get(todoList.getAllAvailableTasks);
+
 
 app.route('/getAllTasks')
   .get(todoList.list_all_tasks);

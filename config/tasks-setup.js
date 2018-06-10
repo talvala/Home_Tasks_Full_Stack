@@ -42,8 +42,6 @@ exports.update_a_task = function(req, res) {
 
 
 exports.delete_a_task = function(req, res) {
-
-
   Task.remove({
     _id: req.params.taskId
   }, function(err, task) {
@@ -52,3 +50,13 @@ exports.delete_a_task = function(req, res) {
     res.json({ message: 'Task successfully deleted' });
   });
 };
+
+
+exports.getAllAvailableTasks = function(req, res) {
+  Task.find({status: 'available'}, 'name points time_to_complete', function(err, task) {
+    if (err)
+      res.send(err);
+    res.json(task);
+  });
+};
+

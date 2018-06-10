@@ -25,26 +25,41 @@ module.exports = class userDAO {
   }
 
   //Tal:
-  static getUserProfileSummary(){
+  static getUserProfileSummary(usrid){
       console.log("getting profile summary");
         // console.log(usrid);
-        return User.find( {username: 'Elaya Gabay'}, 'scores')
-                     .catch(() => error("err"));
+        // return User.find( {_id: usrid}, {'scores': 1, 'tasks.completed_tasks': 1 , 'achievments.length': 1})
+        //              .catch(() => error("err"));
+    var length = User.aggregate([
+           { $project: {
+            achievments: {$size: "$achievments"},
+            tasks_done: {$size: "$tasks.completed_tasks"}}
+          }
+       ])
+    var scores = User.find({_id: usrid}, 'scores');
 
+     console.log(JSON.stringify(length));
+     return length;
+
+    // JSON.stringify(length);
+    // JSON.stringify(scores);
+    // console.log(length);
+    // console.log(scores);
+    
     }
-    static getUserCompletedTasks(){
+    static getUserCompletedTasks(usrid){
       console.log("getting completed tasks");
-      return User.find({username: user.thumbnail}, 'completedtasks')
+      return User.find({_id: usrid}, 'tasks.completed_tasks')
             .catch(() => error("err"));
     }
-    static getUserSavedTasks(){
+    static getUserSavedTasks(usrid){
       console.log("getting saved tasks");
-      return User.find()
+      return User.find({_id: usrid}, 'tasks.taken_tasks')
             .catch(() => error("err"));
     }
-    static getUserAchievments(){
+    static getUserAchievments(usrid){
       console.log("getting achievments");
-      return User.find()
+      return User.find({_id: usrid}, 'achievments')
             .catch(() => error("err"));
     }
     static getAllScores(){
