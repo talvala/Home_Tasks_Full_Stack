@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Homepage</title>
+    <style>
+        body{
+            font-family: arial;
+            margin: 0;
+        }
+        nav{
+            background: #4B8BE3;
+            padding: 20px 10px;
+        }
+        nav ul{
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        nav li{
+            list-style-type: none;
+            display: inline-block;
+            margin: 0 10px 0 0;
+        }
+        nav a{
+            color: #fff;
+            font-size: 18px;
+            background: rgba(255,255,255,0.2);
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+        main, header{
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 0 10px;
+            color: #333;
+        }
+        main img{
+            width: 40px;
+            margin-right: 10px;
+            position: relative;
+            top: 12px;
+        }
+        main p{
+            display: inline-block;
+        }
+        h3{
+            margin-bottom: -10px;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <% if (user) { %>
+        <li><a href="/auth/logout">Log out</a></li>
+        <% } else { %>
+        <li><a href="/auth/login">Login</a></li>
+        <% } %>
+        <li><a href="/">Homepage</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/statistics">Statistics</a></li>
+        <li><a href="/tasks">Manage Tasks</a></li>
+
+    </ul>
+</nav>
+<header>
+    <h1>Welcome to your profile, <%= user.username %></h1>
+</header>
+<main>
+
+    <div class="col-lg-10">
+        <h2><u> Tasks</u></h2>
+        <section>
+            <h3>Get a list of all tasks</h3>
+            <p>Method: GET<br>
+                Request URL: <a href="./getAllTasks" target="_blank">
+                    https://hometasks.herokuapp.com/getAllTasks </a><br>
+                Response: JSON sorted by weekly points.</p>
+        </section>
+        <br>
+        <section>
+            <h3>Most Taken Tasks SO Far </h3>
+            <p>Method: POST <br>
+                Request URL: <a href="./createTask" target="_blank">
+                    https://hometasks.herokuapp.com/createTask </a><br>
+                Response: JSON of Most Tasks done so far.</p>
+        </section>
+        <br>
+        <section>
+            <h3> Get specific task by ID </h3>
+            <p>Method: GET<br>
+                Request URL: <a href="./tasks" target="_blank">
+                    https://hometasks.herokuapp.com/tasks </a><br>
+                Response: JSON of Most Tasks done so far.</p>
+        </section>
+        <br>
+        <section>
+            <h3>Update specific task by id </h3>
+            <p>Method: PUT<br>
+                Request URL: <a href="./tasks" target="_blank">
+                    https://hometasks.herokuapp.com/tasks </a><br>
+                Response: JSON of Most Tasks done so far.</p>
+        </section>
+        <br>
+        <section>
+            <h3>Delete specific task by id </h3>
+            <p>Method: DELETE<br>
+                Request URL: <a href="./tasks" target="_blank">
+                    https://hometasks.herokuapp.com/tasks </a><br>
+                Response: JSON of Most Tasks done so far.</p>
+        </section>
+    </div>
+
+</main>
+</body>
+</html>
