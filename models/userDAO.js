@@ -4,24 +4,33 @@ Tasks = require('../models/tasksModel');
 
 
 module.exports = class userDAO {
-    static mostPointsThisWeek() {
-        return User.find().sort({scores: 'desc'})
-                   .catch(() => error("bla"));
-    }
 
   static mostTasksDoneSoFar() {
-    return User.find().sort({scores: 'desc'})
-      .catch(() => error("bla"));
+    // return User.find().sort({scores: 'desc'})
+    //   .catch(() => error("bla"));
+    var length = User.aggregate([
+           { $project: {
+            tasks_done: {$size: "$tasks.completed_tasks"}}
+          }
+       ])
+    return length;
   }
 
-  static TasksPerDay() {
-    return User.find({}, 'name scores')
-      .catch(() => error("bla"));
-  }
+  // static TasksPerDay() {
+  //   return User.find({}, 'name scores')
+  //     .catch(() => error("bla"));
+  // }
 
   static TheMedalists() {
-    return User.find().sort({scores: 'desc'})
-      .catch(() => error("bla"));
+    var achievment = User.aggregate([
+    {
+      $project:
+       {
+           medalist: { $arrayElemAt: [ "$achievments", 0 ] }
+        }
+     }
+  ])
+    return achievment;
   }
 
   //Tal:
@@ -32,13 +41,12 @@ module.exports = class userDAO {
         //              .catch(() => error("err"));
     var length = User.aggregate([
            { $project: {
+            scores: 1,
             achievments: {$size: "$achievments"},
             tasks_done: {$size: "$tasks.completed_tasks"}}
           }
        ])
-    var scores = User.find({_id: usrid}, 'scores');
-
-     console.log(JSON.stringify(length));
+    
      return length;
 
     // JSON.stringify(length);
@@ -64,7 +72,7 @@ module.exports = class userDAO {
     }
     static getAllScores(){
         console.log("getting all scores");
-        return User.find({}, 'name scores')
+        return User.find({}, 'name scores').sort({scores: 'desc'})
                     .catch(() => error("err"));
 
     }

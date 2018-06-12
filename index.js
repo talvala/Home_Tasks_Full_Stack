@@ -52,9 +52,6 @@ app.use('/statistics', statisticsRoutes);
 app.use('/tasks', tasksRoutes);
 
 
-app.get('/mostPointsThisWeek', (req, res) => {
-  UserDAO.mostPointsThisWeek().then(data=>res.json(data));
-});
 app.get('/mostTasksDoneSoFar', (req, res) => {
   UserDAO.mostTasksDoneSoFar().then(data=>res.json(data));
 });
@@ -115,6 +112,11 @@ app.route('/tasks/:taskId')
   .get(todoList.read_a_task)
   .put(todoList.update_a_task)
   .delete(todoList.delete_a_task);
+
+app.route('/takeATask:taskId')
+  //.get(todoList.read_a_task)
+  .get(todoList.take_a_task)
+  .put(todoList.take_a_task);
 
 
 

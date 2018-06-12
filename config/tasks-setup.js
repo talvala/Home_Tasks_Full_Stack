@@ -60,3 +60,12 @@ exports.getAllAvailableTasks = function(req, res) {
   });
 };
 
+exports.take_a_task = function (req, res){
+  console.log(req.params.taskId);
+  Task.findOneAndUpdate({_id: req.params.taskId}, {$push: {"assignee": 11111}}, {new: true}, function(err, task) {
+    if (err)
+      res.send(err);
+    res.json({message: 'successfully'});
+  });
+};
+
