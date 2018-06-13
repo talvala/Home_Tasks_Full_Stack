@@ -61,8 +61,8 @@ exports.getAllAvailableTasks = function(req, res) {
 };
 
 exports.take_a_task = function (req, res){
-  console.log(req.params.taskId);
-  Task.findOneAndUpdate({_id: req.params.taskId}, {$push: {"assignee": 11111}}, {new: true}, function(err, task) {
+  console.log(req.body.taskId);
+  Task.findOneAndUpdate({_id: req.body.taskId}, {$set: {"assignee": "11111"}}, {new: false}, function(err, task) {
     if (err)
       res.send(err);
     res.json({message: 'successfully'});

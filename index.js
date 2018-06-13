@@ -113,11 +113,11 @@ app.route('/tasks/:taskId')
   .put(todoList.update_a_task)
   .delete(todoList.delete_a_task);
 
-app.route('/takeATask:taskId')
+app.route('/takeATask')
   //.get(todoList.read_a_task)
   .get(todoList.take_a_task)
-  .put(todoList.take_a_task);
-
+  .put(todoList.take_a_task)
+  .put(UserDAO.putTakenTask);
 
 
 // create home route

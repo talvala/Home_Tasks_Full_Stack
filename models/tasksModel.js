@@ -24,7 +24,7 @@ var TaskSchema = new Schema({
     type:Number,
     required: 'please enter the points of the task'
   },
-  assignee: Number, //id of user
+  assignee: String, //id of user
   isTimeLimited:{
     type:Boolean,
     default:false

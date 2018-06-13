@@ -74,6 +74,12 @@ module.exports = class userDAO {
         console.log("getting all scores");
         return User.find({}, 'name scores').sort({scores: 'desc'})
                     .catch(() => error("err"));
+    }
+    static putTakenTask(){
+        console.log("success in routing");
+        return User.find({}, 'name scores').sort({scores: 'desc'})
+                    .catch(() => error("err"));
 
     }
+
 };
