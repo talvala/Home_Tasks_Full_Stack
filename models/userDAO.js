@@ -1,6 +1,6 @@
 
 User = require('../models/userModel');
-Tasks = require('../models/tasksModel');
+Task = require('../models/tasksModel');
 
 
 module.exports = class userDAO {
@@ -21,17 +21,17 @@ module.exports = class userDAO {
   //     .catch(() => error("bla"));
   // }
 
-  static TheMedalists() {
-    var achievment = User.aggregate([
-    {
-      $project:
-       {
-           medalist: { $arrayElemAt: [ "$achievments", 0 ] }
-        }
-     }
-  ])
-    return achievment;
-  }
+  // static TheMedalists() {
+  //   var achievment = User.aggregate([
+  //   {
+  //     $project:
+  //      {
+  //          medalist: { $arrayElemAt: [ "$achievments", 0 ] }
+  //       }
+  //    }
+  // ])
+  //   return achievment;
+  // }
 
   //Tal:
   static getUserProfileSummary(usrid){
@@ -80,6 +80,16 @@ module.exports = class userDAO {
         return User.find({}, 'name scores').sort({scores: 'desc'})
                     .catch(() => error("err"));
 
+    }
+
+    static takeATask(taskId, usrId){
+      return User.findOneAndUpdate({_id: usrId}, {$push: {"tasks.taken_tasks": taskId}}, {new: false})
+      .catch(() => error("err"));
+    }
+
+   static closeATask(taskId, usrId){
+     return User.findOneAndUpdate({_id: usrId}, {$push: {"tasks.completed_tasks": taskId}}, {new: false})
+      .catch(() => error("err"));
     }
 
 };

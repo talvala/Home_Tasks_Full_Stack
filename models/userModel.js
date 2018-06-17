@@ -12,7 +12,7 @@ const userSchema = new Schema({
         tasks_counter: Number,
         tasks_per_day: Number
     },
-  achievements: []
+    achievements: String
 });
 
 

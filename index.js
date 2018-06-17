@@ -6,11 +6,10 @@ const profileRoutes = require('./routes/profile-routes');
 const statisticsRoutes = require('./routes/statistics-routes');
 const passportSetup = require('./config/passport-setup');
 const tasksRoutes = require('./routes/tasks-routes');
-
 const mongoose = require('mongoose').set('debug', true);;
 const keys = require('./config/keys');
 const UserDAO = require('./models/userDAO');
-const TasksDAO = require('./models/tasksDAO');
+const TaskDAO = require('./models/tasksDAO');
 const todoList = require('./config/tasks-setup');
 
 bodyParser = require('body-parser');
@@ -52,29 +51,55 @@ app.use('/statistics', statisticsRoutes);
 app.use('/tasks', tasksRoutes);
 
 
-app.get('/mostTasksDoneSoFar', (req, res) => {
-  UserDAO.mostTasksDoneSoFar().then(data=>res.json(data));
+
+//Homepage
+app.get('/getAllScores', (req, res) => {
+  UserDAO.getAllScores().then(data=>res.json(data));
 });
 
-app.get('/TasksPerDay', (req, res) => {
-  UserDAO.TasksPerDay().then(data=>res.json(data));
+app.get('/getAllAvailableTasks', (req, res) => {
+  TaskDAO.getAllAvailableTasks().then(data=>res.json(data));
 });
 
-app.get('/TheMedalists', (req, res) => {
-  UserDAO.TheMedalists().then(data=>res.json(data));
+app.put('/takeATask', (req, res, next) => {
+  var taskId = req.body.taskId;
+  var usrName = req.body.usrName;
+  TaskDAO.takeATask(taskId, usrName);
+  next();
 });
 
-app.get('/addNewTasks', (req, res) => {
-  TasksDAO.addNewTask().then(data=>res.json(data));
+app.put('/takeATask', (req, res) => {
+  var taskId = req.body.taskId;
+  var usrId = req.body.usrId;
+  UserDAO.takeATask(taskId, usrId).then(data=>res.json(data));
 });
 
-//Tal:
+app.put('/closeATask', (req, res, next) => {
+  var taskId = req.body.taskId;
+  TaskDAO.closeATask(taskId);
+  next();
+});
+
+app.put('/closeATask', (req, res) => {
+  var usrId = req.body.usrId;
+  var taskId = req.body.taskId;
+  UserDAO.closeATask(taskId,usrId).then(data=>res.json(data));
+});
+
+// app.route('takeATask')
+//   .get(UserDAO.takeATask(taskId, usrId))
+//   .get(TaskDAO.takeATask(taskId, usrName))
+
+
+// app.route('/takeATask')
+//   .get(todoList.take_a_task)
+//   .put(todoList.take_a_task)
+//
+
+//Profile
 app.get('/getUserProfileSummary', (req, res) => {
-  //get user google id
   var usr = req.user;
   var usrid = usr.id;
-  // var completed = usr.tasks.completed_tasks.length;
-  // var achievments = use.achievments.length;
   UserDAO.getUserProfileSummary(usrid).then(data=>res.json(data));
 });
 app.get('/getUserCompletedTasks', (req, res) => {
@@ -92,19 +117,15 @@ app.get('/getUserAchievments', (req, res) => {
   var usrid = usr.id;
   UserDAO.getUserAchievments(usrid).then(data=>res.json(data));
 });
-app.get('/getAllScores', (req, res) => {
-  UserDAO.getAllScores().then(data=>res.json(data));
+//
+
+//Statistics (+getUserAchievments +getAllScores)
+app.get('/mostTasksDoneSoFar', (req, res) => {
+  UserDAO.mostTasksDoneSoFar().then(data=>res.json(data));
 });
+//
 
-
-app.route('/getavail')
-  .get(todoList.getAllAvailableTasks);
-
-
-app.route('/getAllTasks')
-  .get(todoList.list_all_tasks);
-
-// todoList Routes
+//Manage Tasks(+ )
 app.route('/createTask')
   .post(todoList.create_a_task);
 
@@ -113,12 +134,20 @@ app.route('/tasks/:taskId')
   .put(todoList.update_a_task)
   .delete(todoList.delete_a_task);
 
-app.route('/takeATask')
-  //.get(todoList.read_a_task)
-  .get(todoList.take_a_task)
-  .put(todoList.take_a_task)
-  .put(UserDAO.putTakenTask);
+app.get('/getAllTasks', (req, res) => {
+  TaskDAO.getAllTasks().then(data=>res.json(data));
+});
 
+
+
+
+
+
+
+// app.route('/getAllTasks')
+//   .get(todoList.list_all_tasks);
+
+// todoList Routes
 
 // create home route
 app.get('/', (req, res) => {
