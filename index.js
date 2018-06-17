@@ -119,9 +119,13 @@ app.get('/getUserAchievments', (req, res) => {
 });
 //
 
-//Statistics (+getUserAchievments +getAllScores)
+//Statistics (+getAllScores)
 app.get('/mostTasksDoneSoFar', (req, res) => {
   UserDAO.mostTasksDoneSoFar().then(data=>res.json(data));
+});
+
+app.get('/getMedalist', (req, res) => {
+  UserDAO.getMedalist().then(data=>res.json(data));
 });
 //
 

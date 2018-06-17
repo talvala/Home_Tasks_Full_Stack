@@ -10,6 +10,7 @@ module.exports = class userDAO {
     //   .catch(() => error("bla"));
     var length = User.aggregate([
            { $project: {
+            name: 1,
             tasks_done: {$size: "$tasks.completed_tasks"}}
           }
        ])
@@ -42,7 +43,7 @@ module.exports = class userDAO {
     var length = User.aggregate([
            { $project: {
             scores: 1,
-            achievments: {$size: "$achievments"},
+            achievments: 1,
             tasks_done: {$size: "$tasks.completed_tasks"}}
           }
        ])
@@ -91,5 +92,11 @@ module.exports = class userDAO {
      return User.findOneAndUpdate({_id: usrId}, {$push: {"tasks.completed_tasks": taskId}}, {new: false})
       .catch(() => error("err"));
     }
+
+    static getMedalist(){
+     return User.find({}, 'achievments')
+      .catch(() => error("err"));
+    }
+    
 
 };

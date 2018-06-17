@@ -62,7 +62,7 @@
                 <h3>Get All Users Scores</h3>
                 <p>Method: GET<br>
                 Request URL: <a href="./getAllScores" target="_blank">
-                            https://hometasks.herokuapp.com/mostPointsThisWeek </a><br>
+                            https://hometasks.herokuapp.com/getAllScores </a><br>
                 Response: JSON sorted by weekly points.</p>
             </section>
             <br>
@@ -70,8 +70,8 @@
                 <h3>More Things To Do</h3>
                 <p>Method: GET<br>
                 Request URL: <a href="./getAllAvailableTasks" target="_blank">
-                        https://hometasks.herokuapp.com/mostTasksDoneSoFar </a><br>
-                            Response: JSON of Most Tasks done so far.</p>
+                        https://hometasks.herokuapp.com/getAllAvailableTasks </a><br>
+                            Response: JSON of All available Tasks.</p>
             </section>
                 <br>
                 <section>
@@ -79,7 +79,15 @@
                 <p>Method: PUT<br>
                 Request URL: <a href="./takeATask" target="_blank">
                         https://hometasks.herokuapp.com/takeATask </a><br>
-                            Response: None.</p>
+                            Response: JSON of user details.</p>
+            </section>
+            <br>
+            <section>
+                <h3>Close A Task</h3>
+                <p>Method: PUT<br>
+                Request URL: <a href="./closeATask" target="_blank">
+                        https://hometasks.herokuapp.com/closeATask </a><br>
+                            Response: JSON of user details.</p>
             </section>
                 </div>
         </main>
