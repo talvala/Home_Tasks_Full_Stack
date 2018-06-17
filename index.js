@@ -160,6 +160,6 @@ app.get('/', (req, res) => {
 
 
 
-app.listen(3030, () => {
+app.listen(process.env.PORT || 3030, () => {
     console.log('app now listening for requests on port 3030');
 });
