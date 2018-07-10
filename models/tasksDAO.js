@@ -14,7 +14,7 @@ module.exports = class userDAO {
   }
 
   static takeATask(taskId, usrName){
-  	return Task.findOneAndUpdate({_id: taskId}, {$set: {"assignee": usrName}}, {new: false})
+  	return Task.findOneAndUpdate({_id: taskId}, {$set: {"assignee": usrName},{"status": "taken"}}, {new: false})
   		.catch(() => error("err"));
   }
 
